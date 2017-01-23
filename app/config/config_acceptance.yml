@@ -16,7 +16,7 @@ csa_guzzle:
     clients:
         local_test_api:
             config:
-                base_uri: "http://api.rest-user-api.dev/app_acceptance.php/"
+                base_uri: "http://localhost:8000/app_acceptance.php/"
 
 parameters:
     database_name: "db_acceptance"

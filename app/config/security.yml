@@ -11,8 +11,6 @@ security:
 
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: ~
         fos_userbundle:
             id: fos_user.user_provider.username_email
 
@@ -21,6 +19,19 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        api_login:
+          pattern: ^/login
+          stateless: true
+          anonymous: true
+          form_login:
+            check_path: /login
+            require_previous_session: false
+            username_parameter: username
+            password_parameter: password
+            success_handler: lexik_jwt_authentication.handler.authentication_success
+            failure_handler: lexik_jwt_authentication.handler.authentication_failure
+          logout: true
 
         api:
             pattern:   ^/
@@ -38,4 +49,5 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
+        - { path: ^/login$,           role: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/,                 role: IS_AUTHENTICATED_FULLY }
