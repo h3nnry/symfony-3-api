@@ -74,6 +74,11 @@ fos_user:
     db_driver: orm
     firewall_name: api
     user_class: AppBundle\Entity\User
+    from_email:
+      address:     "support@symfony.com"
+      sender_name: "Administrator"
+    service:
+      mailer: user.mailer.rest
 
 
 # Nelmio CORS

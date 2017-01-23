@@ -1,3 +1,5 @@
+# /src/AppBundle/Features/password_change.feature
+
 Feature: Handle password changing via the RESTful API
 
   In order to provide a more secure system
@@ -7,10 +9,9 @@ Feature: Handle password changing via the RESTful API
 
   Background:
     Given there are Users with the following details:
-
-      | id | username | email             | password   | confirmation_token |
-      | 1  | antonio  | banderas@test.com | antonipass |                    |
-      | 2  | john     | travolta@test.net | johnpass   | some-token-string  |
+      | id | username | email             | password    | confirmation_token |
+      | 1  | antonio  | banderas@test.com | antoniopass |                    |
+      | 2  | john     | travolta@test.net | johnpass    | some-token-string  |
     And I set header "Content-Type" with value "application/json"
 
 
@@ -48,3 +49,54 @@ Feature: Handle password changing via the RESTful API
       {
         "current_password": "antoniopass",
         "plainPassword": {
+          "first": "new password",
+          "second": "new password"
+        }
+      }
+      """
+    Then the response code should be 200
+    And the response should contain "The password has been changed"
+
+  Scenario: Cannot change password with bad current password
+    When I am successfully logged in with username: "antonio", and password: "antoniopass"
+    And I send a "POST" request to "/password/1/change" with body:
+    """
+      {
+        "current_password": "wrong",
+        "plainPassword": {
+          "first": "new password",
+          "second": "new password"
+        }
+      }
+      """
+    Then the response code should be 400
+    And the response should contain "This value should be the user's current password."
+
+  Scenario: Cannot change password with mismatched new password
+    When I am successfully logged in with username: "antonio", and password: "antoniopass"
+    And I send a "POST" request to "/password/1/change" with body:
+    """
+      {
+        "current_password": "antoniopass",
+        "plainPassword": {
+          "first": "new password 11",
+          "second": "new password 22"
+        }
+      }
+      """
+    Then the response code should be 400
+    And the response should contain "The entered passwords don't match"
+
+  Scenario: Cannot change password with missing new password field
+    When I am successfully logged in with username: "antonio", and password: "antoniopass"
+    And I send a "POST" request to "/password/1/change" with body:
+    """
+      {
+        "current_password": "antoniopass",
+        "plainPassword": {
+          "second": "missing first"
+        }
+      }
+      """
+    Then the response code should be 400
+    And the response should contain "The entered passwords don't match"

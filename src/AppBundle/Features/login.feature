@@ -9,9 +9,9 @@ Feature: Handle user login via the RESTful API
 
   Background:
     Given there are Users with the following details:
-      | id | username | email             | password   |
+      | id | username | email             | password    |
       | 1  | antonio  | banderas@test.com | antoniopass |
-      | 2  | john     | travolta@test.net | johnpass   |
+      | 2  | john     | travolta@test.net | johnpass    |
     And I set header "Content-Type" with value "application/json"
 
 
