@@ -1,0 +1,30 @@
+<html>
+    <body>
+        <div>1</div>
+        <div>1</div>
+	<div>
+		<select id="months_selector">
+			<option value=1>january</option>
+			<option value=2>february</option>
+			<option value=3>march</option>
+		</select>
+	</div>
+    <div>
+        <ul>
+            <li>First</li>
+            <li>Second</li>
+        </ul>
+        <span id="element"></span>
+    </div>
+    <form>
+        <input type="text" name="today" />
+    </form>
+    <script>
+        [].forEach.call(document.querySelectorAll('li'), function(el) {
+                el.addEventListener('click', function() {
+                    document.getElementById('element').innerHTML = 'You clicked ' + el.innerHTML;
+                })
+            });
+    </script>
+    </body>
+</html>
