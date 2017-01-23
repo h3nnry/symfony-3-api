@@ -36,9 +36,8 @@ security:
           pattern: ^/password/reset
           anonymous: true
         api_register:
-          firewalls:
-            patternL ^/register
-            anonymous: true
+          pattern: ^/register
+          anonymous: true
 
         api:
             pattern:   ^/
@@ -59,4 +58,5 @@ security:
         - { path: ^/login$,           role: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/password/reset,   role: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/register$,        role: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/password/change,  role: IS_AUTHENTICATED_FULLY }
         - { path: ^/,                 role: IS_AUTHENTICATED_FULLY }

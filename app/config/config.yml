@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -112,6 +112,8 @@ fos_rest:
             rss: false
         mime_types:
             json: ['application/json', 'application/x-json']
+            jpg: ['image/jpeg']
+            png: ['image/png']
     routing_loader:
         default_format:  json
         include_format:  false
