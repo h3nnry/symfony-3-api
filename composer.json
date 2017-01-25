@@ -29,6 +29,7 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
 
+        "willdurand/faker-bundle": "@stable",
         "nelmio/cors-bundle": "^1.5",
         "nelmio/api-doc-bundle": "^2.13",
         "friendsofsymfony/rest-bundle": "^2.0@dev",
@@ -36,7 +37,7 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "lexik/jwt-authentication-bundle": "^1.7",
         "doctrine/doctrine-migrations-bundle": "^1.2",
-        "guzzlehttp/guzzle": "5.3.*"
+        "guzzlehttp/guzzle": "6.1.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
