@@ -14,32 +14,87 @@ class BlogPost implements \JsonSerializable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @ORM\Column(type="string", name="title")
      */
     protected $title;
+
     /**
      * @ORM\Column(type="string", name="body")
      */
     protected $body;
+
     /**
      * @ORM\Column(name="decimal_1", type="decimal", scale=2, precision=8)
      */
     protected $decimal1;
+
     /**
      * @ORM\Column(name="decimal_2", type="decimal", scale=3, precision=8)
      */
     protected $decimal2;
+
     /**
      * @ORM\Column(name="decimal_3", type="decimal",  precision=10, scale=4)
      */
     protected $decimal3;
+
+    /**
+     * @return mixed
+     */
+    public function getDecimal1()
+    {
+        return $this->decimal1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDecimal2()
+    {
+        return $this->decimal2;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDecimal3()
+    {
+        return $this->decimal3;
+    }
+
+    /**
+     * @param mixed $decimal1
+     */
+    public function setDecimal1($decimal1)
+    {
+        $this->decimal1 = $decimal1;
+    }
+
+    /**
+     * @param mixed $decimal2
+     */
+    public function setDecimal2($decimal2)
+    {
+        $this->decimal2 = $decimal2;
+    }
+
+    /**
+     * @param mixed $decimal3
+     */
+    public function setDecimal3($decimal3)
+    {
+        $this->decimal3 = $decimal3;
+    }
+
     public function getId()
     {
         // this has the word private in it
         // and a semi colon ; for some reason
         return $this->id;
     }
+
     /**
      * @return mixed
      */
@@ -47,6 +102,7 @@ class BlogPost implements \JsonSerializable
     {
         return $this->title;
     }
+
     /**
      * @param mixed $title
      * @return BlogPost
@@ -56,6 +112,7 @@ class BlogPost implements \JsonSerializable
         $this->title = $title;
         return $this;
     }
+
     /**
      * @return mixed
      */
@@ -63,6 +120,7 @@ class BlogPost implements \JsonSerializable
     {
         return $this->body;
     }
+
     /**
      * @param mixed $body
      * @return BlogPost
@@ -72,6 +130,7 @@ class BlogPost implements \JsonSerializable
         $this->body = $body;
         return $this;
     }
+
     /**
      * @return mixed
      */
