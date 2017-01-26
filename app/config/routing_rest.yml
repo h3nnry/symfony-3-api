@@ -13,3 +13,8 @@ password_management:
 registration:
   type: rest
   resource: AppBundle\Controller\RestRegistrationController
+
+
+blog_posts:
+  type: rest
+  resource: AppBundle\Controller\BlogPostsController

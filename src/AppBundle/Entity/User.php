@@ -1,7 +1,5 @@
 <?php
 
-// src/AppBundle/Entity/User.php
-
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\Collection;

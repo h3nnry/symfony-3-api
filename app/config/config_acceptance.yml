@@ -19,4 +19,4 @@ csa_guzzle:
                 base_uri: "http://localhost:8000/app_acceptance.php/"
 
 parameters:
-    database_name: "db_acceptance"
+    database_name: "symfony3"

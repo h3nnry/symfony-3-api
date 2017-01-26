@@ -3,7 +3,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\BlogPostRepository")
  * @ORM\Table(name="blog_post")
  */
 class BlogPost implements \JsonSerializable

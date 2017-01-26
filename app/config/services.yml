@@ -11,3 +11,9 @@ services:
     class: AppBundle\Mailer\RestMailer
     public: false
     parent: fos_user.mailer.twig_swift
+
+  crv.doctrine_entity_repository.blog_post:
+    class: Doctrine\ORM\EntityRepository
+    factory: ["@doctrine", getRepository]
+    arguments:
+      - AppBundle\Entity\BlogPost
