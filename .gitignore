@@ -12,5 +12,9 @@
 !symfony3_api/var/sessions/.gitkeep
 !symfony3_api/var/SymfonyRequirements.php
 /symfony3_api/vendor/*
+/angular2-front/dist/*
+/angular2-front/dll/*
+/angular2-front/node_modules/*
+npm-debug.log
 .idea/*
 .idea/workspace.xml
