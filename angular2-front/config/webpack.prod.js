@@ -16,17 +16,16 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
-const OptimizeJsPlugin = require('optimize-js-plugin');
-
+const WebpackMd5Hash = require('webpack-md5-hash');
+const V8LazyParseWebpackPlugin = require('v8-lazy-parse-webpack-plugin');
+const PrerenderSpaPlugin = require('prerender-spa-plugin');
 /**
  * Webpack Constants
  */
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
-const METADATA = webpackMerge(commonConfig({
-  env: ENV
-}).metadata, {
+const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
@@ -34,9 +33,7 @@ const METADATA = webpackMerge(commonConfig({
 });
 
 module.exports = function (env) {
-  return webpackMerge(commonConfig({
-    env: ENV
-  }), {
+  return webpackMerge(commonConfig({env: ENV}), {
 
     /**
      * Developer tool to enhance debugging
@@ -97,7 +94,7 @@ module.exports = function (env) {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract({
             fallbackLoader: 'style-loader',
-            loader: 'css-loader'
+            loader: 'raw-loader!postcss-loader'
           }),
           include: [helpers.root('src', 'styles')]
         },
@@ -109,9 +106,9 @@ module.exports = function (env) {
           test: /\.scss$/,
           loader: ExtractTextPlugin.extract({
             fallbackLoader: 'style-loader',
-            loader: 'css-loader!sass-loader'
+            loader: 'raw-loader!postcss-loader!sass-loader'
           }),
-          include: [helpers.root('src', 'styles')]
+          include: [helpers.root('src', 'scss')]
         },
 
       ]
@@ -124,17 +121,21 @@ module.exports = function (env) {
      * See: http://webpack.github.io/docs/configuration.html#plugins
      */
     plugins: [
-
       /**
-       * Webpack plugin to optimize a JavaScript file for faster initial load
-       * by wrapping eagerly-invoked functions.
-       *
-       * See: https://github.com/vigneshshanmugam/optimize-js-plugin
+       * Plugin: PrerenderSpaPlugin
+       * Description: Prerenders static HTML in a single-page application
+       * Useful for generating static site pages.
        */
+      // new PrerenderSpaPlugin(
+      //   // Absolute path to compiled SPA
+      //   helpers.root('dist'),
+      //   // List of routes to prerender
+      //   [ '/', '/about' ],
 
-      new OptimizeJsPlugin({
-        sourceMap: false
-      }),
+      //   {
+      //     captureAfterTime: 5000
+      //   }
+      // ),
 
       /**
        * Plugin: ExtractTextPlugin
@@ -143,6 +144,14 @@ module.exports = function (env) {
        * See: https://github.com/webpack/extract-text-webpack-plugin
        */
       new ExtractTextPlugin('[name].[contenthash].css'),
+
+      /**
+       * Plugin: WebpackMd5Hash
+       * Description: Plugin to replace a standard webpack chunkhash with md5.
+       *
+       * See: https://www.npmjs.com/package/webpack-md5-hash
+       */
+      new WebpackMd5Hash(),
 
       /**
        * Plugin: DefinePlugin

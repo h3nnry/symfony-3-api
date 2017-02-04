@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <nav class="navbar navbar-toggleable-md navbar-light">
+
+    <button
+      (click)="collapsed = !collapsed"
+      class="navbar-toggler navbar-toggler-right"
+      type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a
+      class="navbar-brand"
+      href="#">
+      <img src="assets/img/soon-dark.svg" alt="SOON_" height="30">
+    </a>
+
+    <div
+      class="collapse navbar-collapse"
+      [ngClass]="{
+        'show': !collapsed
+      }">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/']"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['about']"
+            [routerLinkActive]="['active']">
+            About
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </nav>
+</div>

@@ -1,0 +1,63 @@
+#
+# CircleCI Configuration
+#
+
+# Machine Settings
+
+machine:
+  pre:
+    - mkdir ~/.yarn-cache
+  services:
+    # - docker
+  node:
+    version: 7
+  environment:
+    REPO: soon/angular2-start
+    TAG: $(sed 's/master/latest/;s/\//\-/' <<<$CIRCLE_BRANCH)
+
+# Dependencies
+
+dependencies:
+  pre:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+    # - docker login -u $DOCKER_USER -p $DOCKER_PASS -e $DOCKER_EMAIL $DOCKER_REGISTRY
+    - yarn global add protractor coveralls
+  override:
+    - yarn --ignore-scripts
+    - npm rebuild phantomjs-prebuilt node-sass # phantomjs-prebuilt fails with yarn
+  cache_directories:
+    - ~/.cache/yarn
+
+# Test Commands
+
+test:
+  override:
+    - yarn run test
+    - yarn run saucelabs
+  post:
+    - yarn run coverage
+
+# Deployment
+
+# deployment:
+#   prod:
+#     branch: master
+#     commands:
+#       - yarn run build:aot:prod
+#       - docker build -t $REPO:$TAG .
+#       - docker tag $REPO:$TAG $REPO:prod
+#       - docker push $REPO:prod
+#   qa:
+#     branch: /release\/.*/
+#     commands:
+#       - yarn run build:aot:prod
+#       - docker build -t $REPO:$TAG .
+#       - docker tag $REPO:$TAG $REPO:qa
+#       - docker push $REPO:qa
+#   latest:
+#     branch: develop
+#     commands:
+#       - yarn run build:aot:prod
+#       - docker build -t $REPO:$TAG .
+#       - docker tag $REPO:$TAG $REPO:latest
+#       - docker push $REPO:latest

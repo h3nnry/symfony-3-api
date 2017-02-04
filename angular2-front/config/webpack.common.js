@@ -27,7 +27,10 @@ const ngcWebpack = require('ngc-webpack');
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = helpers.hasNpmFlag('aot');
 const METADATA = {
-  title: 'Angular2 Webpack Starter by @gdi2290 from @AngularClass',
+  title: 'Angular 2 Start',
+  description: 'An Angular 2 starter project written in Typescript 2 and featuring (Router, Forms, Services, Async/Lazy Routes, Directives, Unit tests and E2E tests), Bootstrap 4, Sass CSS, Hot Module Replacement, Karma, Protractor, Jasmine, Saucelabs, CircleCI, NodeJS, Istanbul, Codelyzer, @types, Tslint and Webpack 2',
+  keywords: 'Angular,Angular 2,seed,starter,boilerplate,template,Webpack,Typescript,Bootstrap,Sass',
+  author: 'SOON_',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };
@@ -153,7 +156,7 @@ module.exports = function (options) {
          */
         {
           test: /\.css$/,
-          use: ['to-string-loader', 'css-loader'],
+          use: ['to-string-loader', 'raw-loader', 'postcss-loader'],
           exclude: [helpers.root('src', 'styles')]
         },
 
@@ -164,8 +167,8 @@ module.exports = function (options) {
          */
         {
           test: /\.scss$/,
-          use: ['to-string-loader', 'css-loader', 'sass-loader'],
-          exclude: [helpers.root('src', 'styles')]
+          use: ['to-string-loader', 'raw-loader', 'postcss-loader', 'sass-loader'],
+          exclude: [helpers.root('src', 'scss')]
         },
 
         /* Raw loader support for *.html
@@ -225,7 +228,7 @@ module.exports = function (options) {
       new CommonsChunkPlugin({
         name: 'vendor',
         chunks: ['main'],
-        minChunks: module => /node_modules/.test(module.resource)
+        minChunks: module => /node_modules\//.test(module.resource)
       }),
       // Specify the correct order the scripts will be injected in
       new CommonsChunkPlugin({

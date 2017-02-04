@@ -1,0 +1,8 @@
+//
+// Grid
+// --------------------------------------------------
+// Override style for bootstrap grid here
+
+.container-fluid {
+  max-width: map-get($grid-breakpoints, xl);
+}

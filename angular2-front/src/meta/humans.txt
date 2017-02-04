@@ -1,17 +1,10 @@
 # humanstxt.org/
 # The humans responsible & technology colophon
 
-# TEAM
-
-  <name> -- <role> -- <twitter>
-
-# THANKS
-
-  <name>
-  PatrickJS -- @gdi2290
-  AngularClass -- @AngularClass
-
-# TECHNOLOGY COLOPHON
-
-  HTML5, CSS3
-  Angular2, TypeScript, Webpack
+/* TEAM */
+    Frontend Developer: Ed Opare-Aryee
+/* THANKS */
+    AngularClass: Patrick J. Stapleton
+    Twitter: @gdi2290, @AngularClass
+/* SITE */
+    Technology Stack: HTML5, CSS3, SASS, Angular2, Bootstrap, TypeScript, Webpack
