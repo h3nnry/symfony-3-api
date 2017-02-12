@@ -20,6 +20,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ngcWebpack = require('ngc-webpack');
+const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+
+/**
+ * Postcss Plugins
+ */
+const autoprefixer = require('autoprefixer');
 
 /*
  * Webpack Constants
@@ -27,10 +33,7 @@ const ngcWebpack = require('ngc-webpack');
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = helpers.hasNpmFlag('aot');
 const METADATA = {
-  title: 'Angular 2 Start',
-  description: 'An Angular 2 starter project written in Typescript 2 and featuring (Router, Forms, Services, Async/Lazy Routes, Directives, Unit tests and E2E tests), Bootstrap 4, Sass CSS, Hot Module Replacement, Karma, Protractor, Jasmine, Saucelabs, CircleCI, NodeJS, Istanbul, Codelyzer, @types, Tslint and Webpack 2',
-  keywords: 'Angular,Angular 2,seed,starter,boilerplate,template,Webpack,Typescript,Bootstrap,Sass',
-  author: 'SOON_',
+  title: 'Angular2 Webpack Starter by @gdi2290 from @AngularClass',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };
@@ -62,6 +65,7 @@ module.exports = function (options) {
     entry: {
 
       'polyfills': './src/polyfills.browser.ts',
+      'vendor': './src/vendor.browser.ts',
       'main':      AOT ? './src/main.browser.aot.ts' :
                   './src/main.browser.ts'
 
@@ -156,7 +160,7 @@ module.exports = function (options) {
          */
         {
           test: /\.css$/,
-          use: ['to-string-loader', 'raw-loader', 'postcss-loader'],
+          use: ['to-string-loader', 'css-loader'],
           exclude: [helpers.root('src', 'styles')]
         },
 
@@ -167,8 +171,8 @@ module.exports = function (options) {
          */
         {
           test: /\.scss$/,
-          use: ['to-string-loader', 'raw-loader', 'postcss-loader', 'sass-loader'],
-          exclude: [helpers.root('src', 'scss')]
+          use: ['to-string-loader', 'css-loader', 'sass-loader'],
+          exclude: [helpers.root('src', 'styles')]
         },
 
         /* Raw loader support for *.html
@@ -187,6 +191,16 @@ module.exports = function (options) {
         {
           test: /\.(jpg|png|gif)$/,
           use: 'file-loader'
+        },
+
+        {
+          test: /\.(woff2?|ttf|eot|svg)$/,
+          loader: 'url?limit=10000'
+        },
+
+        {
+          test: /bootstrap[\/\\]js[\/\\]src[\/\\]/,
+          loader: 'imports?jQuery=jquery'
         },
 
       ],
@@ -228,7 +242,7 @@ module.exports = function (options) {
       new CommonsChunkPlugin({
         name: 'vendor',
         chunks: ['main'],
-        minChunks: module => /node_modules\//.test(module.resource)
+        minChunks: module => /node_modules/.test(module.resource)
       }),
       // Specify the correct order the scripts will be injected in
       new CommonsChunkPlugin({
@@ -261,7 +275,15 @@ module.exports = function (options) {
        */
       new CopyWebpackPlugin([
         { from: 'src/assets', to: 'assets' },
-        { from: 'src/meta'}
+        { from: 'src/meta'},
+        {
+          from: 'node_modules/font-awesome/css/font-awesome.min.css',
+          to: 'assets/font-awesome/css/font-awesome.min.css',
+        },
+        {
+          from: 'node_modules/font-awesome/fonts',
+          to: 'assets/font-awesome/fonts'
+        }
       ]),
 
 
@@ -323,7 +345,13 @@ module.exports = function (options) {
        *
        * See: https://gist.github.com/sokra/27b24881210b56bbaff7
        */
-      new LoaderOptionsPlugin({}),
+      new LoaderOptionsPlugin({
+        // test: /\.xxx$/, // may apply this only for some modules
+        debug: true,
+        options: {
+          postcss: [autoprefixer],
+        }
+      }),
 
       // Fix Angular 2
       new NormalModuleReplacementPlugin(
@@ -351,7 +379,27 @@ module.exports = function (options) {
         disabled: !AOT,
         tsConfig: helpers.root('tsconfig.webpack.json'),
         resourceOverride: helpers.root('config/resource-override.js')
-      })
+      }),
+
+      new ProvidePlugin({
+        jQuery: 'jquery',
+        $: 'jquery',
+        jquery: 'jquery',
+        "Tether": 'tether',
+        "window.Tether": "tether",
+        Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
+        Alert: "exports-loader?Alert!bootstrap/js/dist/alert",
+        Button: "exports-loader?Button!bootstrap/js/dist/button",
+        Carousel: "exports-loader?Carousel!bootstrap/js/dist/carousel",
+        Collapse: "exports-loader?Collapse!bootstrap/js/dist/collapse",
+        Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",
+        Modal: "exports-loader?Modal!bootstrap/js/dist/modal",
+        Popover: "exports-loader?Popover!bootstrap/js/dist/popover",
+        Scrollspy: "exports-loader?Scrollspy!bootstrap/js/dist/scrollspy",
+        Tab: "exports-loader?Tab!bootstrap/js/dist/tab",
+        Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
+        Util: "exports-loader?Util!bootstrap/js/dist/util"
+      }),
 
     ],
 

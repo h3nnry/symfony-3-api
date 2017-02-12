@@ -92,6 +92,18 @@ module.exports = function (options) {
     module: {
 
       rules: [
+       {
+         test: /\.ts$/,
+         use: [
+           {
+             loader: 'tslint-loader',
+             options: {
+               configFile: 'tslint.json'
+             }
+           }
+         ],
+         exclude: [/\.(spec|e2e)\.ts$/]
+       },
 
         /*
          * css loader support for *.css files (styles directory only)
@@ -100,19 +112,19 @@ module.exports = function (options) {
          */
         {
           test: /\.css$/,
-          use: ['style-loader', 'raw-loader', 'postcss-loader'],
+          use: ['style-loader', 'css-loader'],
           include: [helpers.root('src', 'styles')]
         },
 
         /*
-         * sass loader support for *.scss files (scss directory only)
+         * sass loader support for *.scss files (styles directory only)
          * Loads external sass styles into the DOM, supports HMR
          *
          */
         {
           test: /\.scss$/,
-          use: ['style-loader', 'raw-loader', 'postcss-loader', 'sass-loader'],
-          include: [helpers.root('src', 'scss')]
+          use: ['style-loader', 'css-loader', 'sass-loader'],
+          include: [helpers.root('src', 'styles')]
         },
 
       ]
@@ -153,7 +165,6 @@ module.exports = function (options) {
               name: 'zone.js',
               path: 'zone.js/dist/long-stack-trace-zone.js'
             },
-            'ts-helpers',
           ],
           vendor: [
             '@angular/platform-browser',

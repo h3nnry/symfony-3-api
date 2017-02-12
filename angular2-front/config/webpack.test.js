@@ -131,19 +131,8 @@ module.exports = function (options) {
          */
         {
           test: /\.css$/,
-          loader: ['to-string-loader', 'raw-loader', 'postcss-loader'],
-          exclude: [helpers.root('src', 'styles')]
-        },
-
-        /*
-         * to string and sass loader support for *.scss files (from Angular components)
-         * Returns compiled css content as string
-         *
-         */
-        {
-          test: /\.scss$/,
-          use: ['to-string-loader', 'raw-loader', 'postcss-loader', 'sass-loader'],
-          exclude: [helpers.root('src', 'scss')]
+          loader: ['to-string-loader', 'css-loader'],
+          exclude: [helpers.root('src/index.html')]
         },
 
         /**

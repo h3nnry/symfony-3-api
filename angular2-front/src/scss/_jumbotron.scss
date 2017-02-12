@@ -1,9 +1,0 @@
-//
-// Jumbotron
-// --------------------------------------------------
-// Override style for bootstrap jumbotron component
-
-.jumbotron {
-  @include gradient-directional(lighten($black, 15%), $gray);
-  color: $jumbotron-color;
-}
